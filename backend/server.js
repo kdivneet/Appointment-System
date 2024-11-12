@@ -22,6 +22,7 @@ app.use(cors())
 
 // api endpoints
 app.use('/api/admin',adminRouter)
+// /api/admin/appointments/update
 app.use('/api/doctor',doctorRouter)
 app.use('/api/user',userRouter)
 // localhost:4000/api/admin

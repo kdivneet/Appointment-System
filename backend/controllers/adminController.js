@@ -5,6 +5,7 @@ import doctorModel from "../models/doctorModel.js"
 import jwt from 'jsonwebtoken'
 import appointmentModel from "../models/appointmentModel.js"
 import userModel from "../models/userModel.js"
+// import Apppo
 
 //API for adding doctor
 const addDoctor = async (req,res) => {
@@ -186,4 +187,36 @@ const adminDashboard = async(req,res) => {
 
 }
 
-export {addDoctor, loginAdmin,allDoctors, appointmentsAdmin, appointmentCancel, adminDashboard}
+// API to edit an appointment
+const editAppointment = async (req, res) => {
+  const { date, time, patient, symptoms, appointmentId } = req.body;
+  console.log(appointmentId)
+
+  try {
+    // Find appointment by ID and update it with the new data
+    const appointment = await appointmentModel.findOneAndUpdate(
+      {"_id":appointmentId},
+      {
+        slotDate : date,
+        slotTime : time,
+      },
+   // Return the updated appointment
+    );
+    
+
+    const new_app = appointmentModel.findOne({"id":appointmentId })
+    console.log(new_app)
+
+    if (!appointment) {
+      return res.status(404).json({ success: false, message: "Appointment not found" });
+    }
+
+    res.status(200).json({ success: true, data: appointment });
+  } catch (error) {
+    console.error("Error updating appointment:", error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+
+export {editAppointment, addDoctor, loginAdmin,allDoctors, appointmentsAdmin, appointmentCancel, adminDashboard}

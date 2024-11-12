@@ -31,7 +31,7 @@ const navigate = useNavigate()
       }
 
     }else {
-      const {data} = await axios.post(backendUrl + '/api/user/login',{ password,email})
+      const {data} = await axios.post(backendUrl + '/api/user/login',{ password, email})
       if(data.success){
         localStorage.setItem('token',data.token)
         setToken(data.token)
@@ -69,7 +69,7 @@ const navigate = useNavigate()
       
           <div className='w-full'>
             <p>Email</p>
-            <input className='border border-zinc-300 rounded w-full p-2 mt-1' type="email" onChange={(e)=>setEmail(e.target.value)} value={email} required></input>
+            <input className='border border-zinc-300 rounded w-full p-2 mt-1' type="text" onChange={(e)=>setEmail(e.target.value)} value={email} required></input>
           </div>
           <div className='w-full'>
             <p>Password</p>

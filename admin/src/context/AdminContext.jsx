@@ -14,6 +14,31 @@ const AdminContextProvider = ( props ) => {
 
     const backendUrl = import.meta.env.VITE_BACKEND_URL
 
+    const getAppointmentById = async (appointmentId) => {
+      try {
+          const { data } = await axios.get(`${backendUrl}/api/admin/appointment/${appointmentId}`, {
+              headers: { aToken }
+          })
+          return data.appointment
+      } catch (error) {
+          console.error('Error fetching appointment data', error)
+          throw error
+      }
+  }
+  
+  const updateAppointment = async (appointmentId, formData) => {
+      try {
+          const { data } = await axios.post(`${backendUrl}/api/admin/update-appointment`, formData, {
+              headers: { aToken }
+          })
+          return data
+      } catch (error) {
+          console.error('Error updating appointment', error)
+          throw error
+      }
+  }
+  
+
     const getAllDoctors = async () => {
 
       try{
@@ -131,7 +156,7 @@ const AdminContextProvider = ( props ) => {
       getAllDoctors, changeAvailability,
       appointments, setAppointments,
       getAllAppointments,cancelAppointment,
-      dashData, getDashData,
+      dashData, getDashData, getAppointmentById, updateAppointment,
     }
 
     return (
