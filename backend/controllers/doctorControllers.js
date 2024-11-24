@@ -101,6 +101,7 @@ const appointmentComplete = async (req, res) => {
       if (appointmentData && appointmentData.docId == docId) {
 
          await appointmentModel.findByIdAndUpdate(appointmentId, { isCompleted: true })
+         sendSMS (`Your appointment with Dr. ${appointmentData?.docData?.name} has been completed.`, appointmentData?.userData?.phone)
          return res.json({ success: true, message: 'Appointment Completed' })
 
       } else {
@@ -131,6 +132,7 @@ const appointmentCancel = async (req, res) => {
       if (appointmentData && appointmentData.docId == docId) {
 
          await appointmentModel.findByIdAndUpdate(appointmentId, { cancelled: true })
+         sendSMS(`Your appointment with Dr. ${appointmentData?.docData?.name} has been cancelled.`, appointmentData?.userData?.phone)
          return res.json({ success: true, message: 'Appointment Cancelled' })
 
       } else {

@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken'
 import { v2 as cloudinary } from 'cloudinary'
 import doctorModel from '../models/doctorModel.js'
 import appointmentModel from '../models/appointmentModel.js'
-import razorpay from 'razorpay'
+import { sendSMS } from '../utils/sendSMS.js'
 
 
 // API to register user
@@ -196,6 +196,8 @@ const bookAppointment = async (req, res) => {
 
         await doctorModel.findByIdAndUpdate(docId, { slots_booked })
 
+        sendSMS(`Your appointment with Dr. ${docData.name} has been booked.`, userData.phone)
+
         res.json({ success: true, message: 'Appointment Booked' })
 
     } catch (error) {
@@ -257,6 +259,7 @@ const cancelAppointment = async (req, res) => {
         await doctorModel.findByIdAndUpdate(docId, { slots_booked })
 
         res.json({ success: true, message: 'Appointment Cancelled' })
+        sendSMS(`Your appointment with Dr. ${appointmentData?.docData?.name} has been cancelled.`, appointmentData?.docData?.phone)
 
     } catch (error) {
 

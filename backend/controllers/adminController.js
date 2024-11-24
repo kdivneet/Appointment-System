@@ -136,11 +136,11 @@ const appointmentCancel = async(req,res) => {
      
 
       await appointmentModel.findByIdAndUpdate(appointmentId, {cancelled: true })
-      const sms = `your appointment cancellation`
+      const sms = `your appointment with the id ${appointmentId} cancellation `
       sendSMS(sms,appointmentData?.userData?.phone)
 
       //releasing doctor slot
-
+      
       const {docId, slotDate, slotTime} = appointmentData
 
       const doctorData = await doctorModel.findById(docId)
