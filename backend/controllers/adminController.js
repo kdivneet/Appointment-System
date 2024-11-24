@@ -5,6 +5,7 @@ import doctorModel from "../models/doctorModel.js"
 import jwt from 'jsonwebtoken'
 import appointmentModel from "../models/appointmentModel.js"
 import userModel from "../models/userModel.js"
+import { sendSMS } from "../utils/sendSMS.js"
 // import Apppo
 
 //API for adding doctor
@@ -135,6 +136,8 @@ const appointmentCancel = async(req,res) => {
      
 
       await appointmentModel.findByIdAndUpdate(appointmentId, {cancelled: true })
+      const sms = `your appointment cancellation`
+      sendSMS(sms,appointmentData?.userData?.phone)
 
       //releasing doctor slot
 
@@ -202,6 +205,8 @@ const editAppointment = async (req, res) => {
       },
    // Return the updated appointment
     );
+    const sms = ` appointment details has been changed, updated details are: date - ${date} timeSlot-  ${time}`;
+    sendSMS(sms, appointment?.userData?.phone)
     
 
     const new_app = appointmentModel.findOne({"id":appointmentId })
